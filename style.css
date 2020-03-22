@@ -1,0 +1,154 @@
+header{
+   position: absolute;
+   top: 0 ;
+   left: 0 ;
+   right: 0 ;
+   height: 50px ;
+
+   background-color: #959595 ;
+
+}
+
+nav {
+   position: absolute;
+   top: 50px ;
+   left: 0 ;
+   bottom: 0 ;
+   width: 200px ;
+
+   background-color: #C0C0C0 ;
+
+}
+
+p.number-link {
+   margin: 0 ;
+   padding: 10px ;
+
+   border-bottom: 1px solid #000000 ;
+
+}
+
+p.number-link:hover {
+   background-color: #B0B0B0 ;
+}
+
+section.sms-conv {
+   position: absolute;
+   top: 50px ;
+   left: 200px ;
+   bottom: 150px ;
+   right: 0 ;
+
+   min-width: 400px ;
+
+   overflow: auto;
+
+}
+
+section.sms-send {
+   position: absolute;
+   bottom: 0;
+   left: 200px ;
+   right: 0 ;
+
+   vertical-align: bottom;
+   overflow: hidden;
+
+   height: 150px;
+}
+
+textarea.sms-send {
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 100px;
+   bottom: 0;
+
+   width: calc(100% - 130px) ;
+   height: 130px;
+
+   resize: none;
+
+   padding: 10px;
+
+   border-radius: 10px;
+   border: 0px none ;
+
+   background-color: #E4E4E4 ;
+
+   margin: 10px;
+   margin-right: 100px;
+}
+
+
+button.sms-send {
+   position: absolute;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   width: 100px;
+
+   border-radius: 10px;
+   border: 0px none ;
+
+   background-color: #D5D5D5 ;
+
+   margin: 10px;
+}
+
+article.sms {
+
+   vertical-align: bottom;
+   float: left;
+   width: 100% ;
+
+}
+
+div.sms-sended {
+   background-color: #5ECEDE ;
+   padding: 5px ;
+   margin: 5px ;
+   margin-left: 50px ;
+   margin-right: 20px;
+
+   text-align: right;
+   float: right;
+
+   border-radius: 10px ;
+}
+
+div.sms-received {
+   background-color: #BEBEBE ;
+   padding: 5px ;
+   margin: 5px ;
+   margin-right: 50px;
+   margin-left: 20px;
+
+   text-align: left;
+   float: left;
+
+   border-radius: 10px ;
+}
+
+p.sms-text {
+
+   width: auto;
+
+   margin-left: 10px ;
+   margin-right: 10px ;
+   margin-top: 0px ;
+
+}
+
+p.sms-date {
+
+   width: auto;
+
+   margin-left: 10px ;
+   margin-right: 10px ;
+   margin-bottom: 0px;
+
+   color: #878787 ;
+   font-style: italic;
+
+}
