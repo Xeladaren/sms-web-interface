@@ -11,138 +11,109 @@
 
 	<body>
 
+		<?php
+
+		//phpinfo();
+
+		define("DB_HOST", "localhost");
+		define("DB_NAME", "webSMS");
+		define("DB_USER", "pi");
+		define("DB_PASS", "");
+
+		try
+		{
+			$bdd = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8', DB_USER, DB_PASS);
+		}
+		catch (Exception $e)
+		{
+				  die('Erreur : ' . $e->getMessage());
+		}
+
+		?>
+
       <header>
-         <a href="">link</a>
-         <a href="">link</a>
-         <a href="">link</a>
-         <a href="">link</a>
+
       </header>
 
       <nav>
 
-         <a href="">
-            <p class="number-link">+33 0 00 00 00 00</p>
-         </a>
+			<?php
 
-         <a href="">
-            <p class="number-link">+33 0 00 00 00 00</p>
-         </a>
+			$req = $bdd->prepare("SELECT DISTINCT sms_number FROM sms;");
+			$req->execute();
 
-         <a href="">
-            <p class="number-link">+33 0 00 00 00 00</p>
-         </a>
+			while ($result = $req->fetch()) {
 
-         <a href="">
-            <p class="number-link">+33 0 00 00 00 00</p>
-         </a>
+				?>
+
+				<a class="number-link" href="?num=<?php echo urlencode($result['sms_number']) ; ?>">
+	            <p class="number-link"><?php echo $result['sms_number'] ; ?></p>
+	         </a>
+
+				<?php
+
+			}
+
+			?>
 
       </nav>
 
       <section class="sms-conv">
 
-         <article class="sms">
-            <div class="sms-received">
-               <p class="sms-text">Test lslfdskjlflkdsf jlsd jfkldjsf lksdj lfsdjf lks <br> dsfsdfsfdsdfsdfsdggdsgsd </p>
-               <p class="sms-date">01/01/1970 00:00:00</p>
-            </div>
-         </article>
+			<?php
 
-         <article class="sms">
-            <div class="sms-received">
-               <p class="sms-text">Test lslfdskjlflkdsf jlsd jfkldjsf lksdj lfsdjf lks <br> dsfsdfsfdsdfsdfsdggdsgsd </p>
-               <p class="sms-date">01/01/1970 00:00:00</p>
-            </div>
-         </article>
+			$req = $bdd->prepare("SELECT * FROM sms WHERE sms_number LIKE '".$_GET["num"]."';");
+			$req->execute();
 
-         <article class="sms">
-            <div class="sms-sended">
-               <p class="sms-text">Test lslfdskjlflkdsf jlsd jfkldjsf lksdj lfsdjf lks sfsdfsfdsdfsdfsdggdsgsd fsdfsdfs sdfsdfsdfsdf sdfsdfsdfsd fsdfdsfsdf sdfsdfsfsdsgsdgsdg sgdsgsdgsdgsdgsdg dsgsdgsdgsdg </p>
-               <p class="sms-date">01/01/1970 00:00:00</p>
-            </div>
-         </article>
+			//$result['idTradList']
 
-         <article class="sms">
-            <div class="sms-received">
-               <p class="sms-text">Test lslfdskjlflkdsf jlsd jfkldjsf lksdj lfsdjf lks <br> dsfsdfsfdsdfsdfsdggdsgsd </p>
-               <p class="sms-date">01/01/1970 00:00:00</p>
-            </div>
-         </article>
+			while ($result = $req->fetch()) {
 
-         <article class="sms">
-            <div class="sms-sended">
-               <p class="sms-text">Test lslfdskjlflkdsf jlsd jfkldjsf lksdj lfsdjf lks <br> dsfsdfsfdsdfsdfsdggdsgsd </p>
-               <p class="sms-date">01/01/1970 00:00:00</p>
-            </div>
-         </article>
+				$sms_text = str_replace("\n", "<br />", $result['sms_msg']);
 
-         <article class="sms">
-            <div class="sms-received">
-               <p class="sms-text">Test lslfdskjlflkdsf jlsd jfkldjsf lksdj lfsdjf lks <br> dsfsdfsfdsdfsdfsdggdsgsd </p>
-               <p class="sms-date">01/01/1970 00:00:00</p>
-            </div>
-         </article>
+				$date = date_parse($result['sms_date']) ;
 
-         <article class="sms">
-            <div class="sms-received">
-               <p class="sms-text">Test lslfdskjlflkdsf jlsd jfkldjsf lksdj lfsdjf lks <br> dsfsdfsfdsdfsdfsdggdsgsd </p>
-               <p class="sms-date">01/01/1970 00:00:00</p>
-            </div>
-         </article>
+				$date_str = sprintf("%02d/%02d/%04d %02d:%02d:%02d",  $date['day'], $date['month'], $date['year'], $date['hour'], $date['minute'], $date['second']);
 
-         <article class="sms">
-            <div class="sms-received">
-               <p class="sms-text">Test lslfdskjlflkdsf jlsd jfkldjsf lksdj lfsdjf lks <br> dsfsdfsfdsdfsdfsdggdsgsd </p>
-               <p class="sms-date">01/01/1970 00:00:00</p>
-            </div>
-         </article>
+				if ($result['sms_type'] == 1) {
 
-         <article class="sms">
-            <div class="sms-sended">
-               <p class="sms-text">Test lslfdskjlflkdsf jlsd jfkldjsf lksdj lfsdjf lks <br> dsfsdfsfdsdfsdfsdggdsgsd </p>
-               <p class="sms-date">01/01/1970 00:00:00</p>
-            </div>
-         </article>
+					?>
 
-         <article class="sms">
-            <div class="sms-received">
-               <p class="sms-text">
-                  Test lslfdskjlflkdsf jlsd jfkldjsf lksdj lfsdjf lks dsfsdfsfdsdfsdfsdggdsgsd
-                  ffsdhdfsgdsfgdfsgdfsgdfgdfsgdsfgdfshdfshdfshdfshdhfdhdshdfshfsd
-                  fdhsdhsdfhdsfhfdshdfshdfhfdshdfhdfhdfhdfhdfshdfhdfshdfshdshfhsdhfdh
-                  hdsfhdfshdsfhfdhdfshdshfhdshfdshfdhdsfhfdshdsfdhsdhfdshdhsfhhdfs
-                  hdshdsfhdfshdshfdshfdshdfshdfshdfsdhfshfds
-               </p>
-               <p class="sms-date">01/01/1970 00:00:00</p>
-            </div>
-         </article>
+					<article class="sms">
+		            <div class="sms-sended">
+		               <p class="sms-text"><?php echo $sms_text ; ?></p>
+		               <p class="sms-date"><?php echo $date_str; ?></p>
+		            </div>
+		         </article>
 
-         <article class="sms">
-            <div class="sms-sended">
-               <p class="sms-text">Test lslfdskjlflkdsf jlsd jfkldjsf lksdj lfsdjf lks <br> dsfsdfsfdsdfsdfsdggdsgsd </p>
-               <p class="sms-date">01/01/1960 00:00:00</p>
-            </div>
-         </article>
+					<?php
 
-         <article class="sms">
-            <div class="sms-received">
-               <p class="sms-text">Test 😀</p>
-               <p class="sms-date">01/01/1970 00:00:00</p>
-            </div>
-         </article>
+				}
+				else {
 
-         <article class="sms">
-            <div class="sms-sended">
-               <p class="sms-text">Test</p>
-               <p class="sms-date">01/01/1970 00:00:00</p>
-            </div>
-         </article>
+					?>
+
+					<article class="sms">
+		            <div class="sms-received">
+		               <p class="sms-text"><?php echo $sms_text ; ?></p>
+		               <p class="sms-date"><?php echo $date_str ; ?></p>
+		            </div>
+		         </article>
+
+					<?php
+
+				}
+
+			}
+
+			?>
 
       </section>
 
       <section class="sms-send">
          <form class="sms-send" action="" method="post">
-            <textarea class="sms-send" name="name" rows="8" cols="80"></textarea>
-            <button class="sms-send" type="button" name="send">Send</button>
+            <textarea class="sms-send" placeholder="SMS ..." name="name" rows="8" cols="80" disabled></textarea>
+            <button class="sms-send" type="button" name="send" disabled><img src="img/send-arrow.svg" alt="Send"></button>
          </form>
       </section>
 
