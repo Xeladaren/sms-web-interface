@@ -7,6 +7,7 @@
 		<title>Web SMS</title>
 
 		<link rel="stylesheet" type="text/css" href="style.css" />
+		<link rel="icon" type="image/svg+xml" href="img/favicon.svg"/>
 	</head>
 
 	<body>
@@ -32,6 +33,8 @@
 		?>
 
       <header>
+
+		 	<a href="/"><img src="img/title.svg" alt="PiSMS" height="50" ></a>
 
       </header>
 
