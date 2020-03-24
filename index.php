@@ -23,12 +23,15 @@
 
 		try
 		{
-			$bdd = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8', DB_USER, DB_PASS);
+			$bdd = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8mb4', DB_USER, DB_PASS);
 		}
 		catch (Exception $e)
 		{
-				  die('Erreur : ' . $e->getMessage());
+			die('Erreur : ' . $e->getMessage());
 		}
+
+		$req2 = $bdd->prepare("UPDATE sms SET sms_status=1 WHERE sms_number LIKE ? AND sms_type=0 ; ");
+		$req2->execute(array($_GET["num"]));
 
 		?>
 
@@ -47,10 +50,22 @@
 
 			while ($result = $req->fetch()) {
 
+				$req2 = $bdd->prepare("select count(sms_status) from sms WHERE sms_number LIKE ? and sms_status = 0 ;");
+				$req2->execute(array($result['sms_number']));
+
+				$unreadCount = $req2->fetch()['count(sms_status)'] ;
+
 				?>
 
 				<a class="number-link" href="?num=<?php echo urlencode($result['sms_number']) ; ?>">
-	            <p class="number-link"><?php echo $result['sms_number'] ; ?></p>
+	            <p class="number-link">
+						<?php
+						if ($unreadCount > 0) {
+							echo "<span class=\"new-msg\">".$unreadCount."</span>" ;
+						}
+						?>
+						<?php echo $result['sms_number'] ; ?>
+					</p>
 	         </a>
 
 				<?php
@@ -65,8 +80,8 @@
 
 			<?php
 
-			$req = $bdd->prepare("SELECT * FROM sms WHERE sms_number LIKE '".$_GET["num"]."';");
-			$req->execute();
+			$req = $bdd->prepare("SELECT * FROM sms WHERE sms_number LIKE ? ; ");
+			$req->execute(array($_GET["num"]));
 
 			//$result['idTradList']
 
@@ -74,9 +89,11 @@
 
 				$sms_text = str_replace("\n", "<br />", $result['sms_msg']);
 
-				$date = date_parse($result['sms_date']) ;
+				$dateTime = new DateTime($result['sms_date']);
 
-				$date_str = sprintf("%02d/%02d/%04d %02d:%02d:%02d",  $date['day'], $date['month'], $date['year'], $date['hour'], $date['minute'], $date['second']);
+				$dateTime->setTimezone(new DateTimeZone('Europe/Paris'));
+
+				$timezone = $dateTime->getTimezone();
 
 				if ($result['sms_type'] == 1) {
 
@@ -85,7 +102,7 @@
 					<article class="sms">
 		            <div class="sms-sended">
 		               <p class="sms-text"><?php echo $sms_text ; ?></p>
-		               <p class="sms-date"><?php echo $date_str; ?></p>
+		               <p class="sms-date"><?php echo $dateTime->format('d/m/Y H:i:s') ; ?></p>
 		            </div>
 		         </article>
 
@@ -99,7 +116,7 @@
 					<article class="sms">
 		            <div class="sms-received">
 		               <p class="sms-text"><?php echo $sms_text ; ?></p>
-		               <p class="sms-date"><?php echo $date_str ; ?></p>
+		               <p class="sms-date"><?php echo $dateTime->format('d/m/Y H:i:s') ; ?></p>
 		            </div>
 		         </article>
 

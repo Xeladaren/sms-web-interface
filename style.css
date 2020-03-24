@@ -28,6 +28,18 @@ a.number-link {
    text-decoration: none;
 }
 
+span.new-msg {
+   background-color: #FF6161 ;
+   color: #FFFFFF ;
+   padding: 1px ;
+   padding-left: 5px ;
+   padding-right: 5px ;
+
+   margin-right: 5px;
+
+   border-radius: 8px ;
+}
+
 p.number-link {
    margin: 0 ;
    padding: 10px ;
